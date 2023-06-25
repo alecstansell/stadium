@@ -1,6 +1,6 @@
 # Stadium Event Analysis
 
-This project analyzes mobile data during an event at a stadium to infer when the event most likely occurred. It consists of two main components: an exploratory data analysis (EDA) in R and a performant Q example.
+This project analyzes mobile data during an event at a stadium to infer when the event most likely occurred. It consists of two main components: an EDA in R and a performant Q example.
 
 ## EDA (R)
 
