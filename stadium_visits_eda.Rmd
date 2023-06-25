@@ -1,0 +1,173 @@
+---
+title: "Stadium Event Date"
+output: html_notebook
+---
+
+## Summary
+
+This notebook examines mobile data during the time of an event at a stadium and infers when an event is most likely to have occured. 
+
+### Input 
+pings_for_test.csv - cellular data 
+
+### Logic 
+* Reads in data 
+* Using max and min timestamp per device calculates time spent at the location. 
+* Average durations by date
+* Plot average duration per date
+* Calculate and plot unique visits per date
+* Shiny heatmap with duration as intensity over the time period
+
+#### Load packages
+
+```{r}
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(ggplot2)
+  library(lubridate)
+})
+```
+
+
+#### Read in ping data
+
+
+```{r}
+data = read.csv('/Users/alec/Data/stadium/pings_for_test.csv')
+```
+
+
+#### Calculate average timestamp duration with average lat and long for each device
+
+```{r}
+data_with_duration <- data %>%
+  mutate(date = as.Date(date)) %>%
+  group_by(id, date) %>%
+  summarise(duration = max(unix_timestamp) - min(unix_timestamp),
+            latitude = mean(latitude),
+            longitude = mean(longitude))
+```
+
+####  Calculate average duration per date
+
+```{r}
+average_duration_by_date <- data_with_duration %>%
+  group_by(date) %>%
+  summarise(average_duration = mean(duration))
+
+
+```
+
+
+####  Plot average duration per day
+
+```{r}
+
+ggplot(average_duration_by_date, aes(x = date, y = average_duration)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Average Duration at Stadium by Date",
+       x = "Date",
+       y = "Average Duration (seconds)") +
+  theme_bw() +
+  theme(plot.title = element_text(face = "bold", size = 16),
+        axis.title = element_text(size = 12),
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+        axis.text.y = element_text(size = 10)) +
+  scale_x_date(date_breaks = "1 day", date_labels = "%Y-%m-%d")
+
+
+
+```
+
+#### Calculate visits per day
+
+Based on this duration plot it seems like there was an increase in duration on the 6 May 2023. 
+
+Lets look at the number of visitors per day.
+
+```{r}
+# Calculate the number of visitors per day
+visitors_by_date <- data %>%
+  group_by(date) %>%
+  summarize(
+    num_visitors = n_distinct(id),
+    .groups = 'drop'
+  )
+
+# Plot the bar chart
+ggplot(visitors_by_date, aes(x = date, y = num_visitors)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Number of Visitors at Stadium by Date",
+       x = "Date",
+       y = "Number of Visitors") +
+  theme_bw() +
+  theme(plot.title = element_text(face = "bold", size = 16),
+        axis.title = element_text(size = 12),
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+        axis.text.y = element_text(size = 10))
+
+```
+#### Create shiny heatmap showing changes over the dates intensity is the average duration per day.
+
+Interestingly theres a drop in unique visitors on the 6th of May. This could indicate less people were passing through with a smaller number staying for the entire event. 
+
+Lets visualise where this is and create a heatmap 
+
+```{r}
+suppressPackageStartupMessages({
+  library(leaflet)
+  library(leaflet.extras)
+  library(shiny)
+  library(shinyWidgets)
+  library(shinyBS)
+})
+
+server <- function(input, output) {
+  # Filter the data based on the selected date range
+  filteredData <- reactive({
+    data_with_duration %>%
+      filter(date >= input$dateRange[1] & date <= input$dateRange[2])
+  })
+
+  # Calculate the minimum and maximum dates
+  minDate <- min(data_with_duration$date)
+  maxDate <- max(data_with_duration$date)
+
+  # Create the leaflet map
+  output$heatmapPlot <- renderLeaflet({
+    leaflet() %>%
+      addProviderTiles("Esri.WorldStreetMap") %>%
+      setView(lng = -0.1266592, lat = 51.50461, zoom = 15) %>%
+      addHeatmap(data = filteredData(),
+                 lng = ~longitude, lat = ~latitude,
+                 intensity = ~duration,
+                 radius = 10, blur = 1,
+                 max = max(data_with_duration$duration),
+                 gradient = heat.colors(200))
+  })
+
+  # Create the date range slider
+  output$dateSlider <- renderUI({
+    sliderInput("dateRange", "Date Range",
+                min = minDate, max = maxDate,
+                value = c(minDate, maxDate),step = 1, width = "100%",
+                timeFormat = "%Y-%m-%d")
+  })
+}
+
+ui <- fluidPage(
+  titlePanel("Stadium Event Date Heatmap"),
+  mainPanel(
+    leafletOutput("heatmapPlot", width = "100%", height = "500px"),
+    br(),
+    uiOutput("dateSlider")
+  )
+)
+
+shinyApp(ui = ui, server = server)
+
+
+```
+#### Conclusion
+
+Based on the location near the Horse Guards Parade and given the date with the longest duration being the 6 May 2023 - it seems likely that the event was King Charles's coronation.
