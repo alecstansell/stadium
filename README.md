@@ -10,7 +10,7 @@ The EDA folder contains an R notebook that explore and visualize the mobile data
 - `stadium_visits_eda.Rmd`: R Markdown file with the EDA analysis, including data preprocessing, visualizations, and insights.
 - `figures`: Folder containing figures generated using stadium_visits_eda.Rmd.
 
-## Performant Q Example
+## Performant Q 
 
 The Q code example demonstrates how this could be done more efficiently. It includes the following file:
 
