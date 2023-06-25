@@ -11,13 +11,12 @@ The EDA folder contains an R notebook that explore and visualize the mobile data
 - `stadium_visits_eda.html`: HTML version of the EDA file including results with preprocessing, visualizations, and insights.
 - `figures/`: Folder containing figures generated using stadium_visits_eda.Rmd.
 
-## Performant Q Code Example
+## Performant Q Example
 
 The Q code example demonstrates how this could be done more efficiently. It includes the following file:
 
 - `identify_event_day.q`: Q file identifying the day with the greatest mean device duration.
 
-- 
 ## Getting Started
 
 To reproduce the EDA analysis and run the Q code , follow these steps:
