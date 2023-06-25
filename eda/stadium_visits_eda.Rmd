@@ -28,14 +28,11 @@ suppressPackageStartupMessages({
 })
 ```
 
-
 #### Read in ping data
-
 
 ```{r}
 data = read.csv('/Users/alec/Data/stadium/pings_for_test.csv')
 ```
-
 
 #### Calculate average timestamp duration with average lat and long for each device
 
@@ -55,9 +52,7 @@ average_duration_by_date <- data_with_duration %>%
   group_by(date) %>%
   summarise(average_duration = mean(duration))
 
-
 ```
-
 
 ####  Plot average duration per day
 
@@ -74,8 +69,6 @@ ggplot(average_duration_by_date, aes(x = date, y = average_duration)) +
         axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
         axis.text.y = element_text(size = 10)) +
   scale_x_date(date_breaks = "1 day", date_labels = "%Y-%m-%d")
-
-
 
 ```
 
@@ -166,8 +159,7 @@ ui <- fluidPage(
 
 shinyApp(ui = ui, server = server)
 
-
 ```
 #### Conclusion
 
-Based on the location near the Horse Guards Parade and given the date with the longest duration being the 6 May 2023 - it seems likely that the event was King Charles's coronation.
+Based on the location near the Horse Guards Parade and given the date with the longest average device duration being the 6 May 2023 - it seems likely that the event was King Charles's coronation.
