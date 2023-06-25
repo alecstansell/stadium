@@ -1,3 +1,13 @@
+/*
+   This script identifies the date with the highest mean device duration indicating the date of the event at the stadium.
+
+   Input: 
+   * pings_for_test.csv mobile ping data for a stadium
+
+   Output
+   * Date with highest mean device duration.
+*/
+
 // Load the data
 data: ("SSDFFF"; enlist ",") 0: `:pings_for_test.csv
 
