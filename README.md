@@ -1,6 +1,6 @@
 # Stadium Event Analysis
 
-This project analyzes mobile data during an event at a stadium to infer when the event most likely occurred. It consists of two main components: an exploratory data analysis (EDA) in R and a performant Q code example.
+This project analyzes mobile data during an event at a stadium to infer when the event most likely occurred. It consists of two main components: an exploratory data analysis (EDA) in R and a performant Q example.
 
 ## EDA (R)
 
@@ -8,7 +8,7 @@ The EDA folder contains an R notebook that explore and visualize the mobile data
 
 - `dependencies.txt`: File containing the R dependencies for running the R script.
 - `stadium_visits_eda.Rmd`: R Markdown file with the EDA analysis, including data preprocessing, visualizations, and insights.
-- `stadium_visits_eda.html`: HTML version of the EDA file including results showing data preprocessing, visualizations, and insights.
+- `stadium_visits_eda.html`: HTML version of the EDA file including results with preprocessing, visualizations, and insights.
 - `figures/`: Folder containing figures generated using stadium_visits_eda.Rmd.
 
 ## Performant Q Code Example
