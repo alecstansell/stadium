@@ -1,0 +1,10 @@
+# Stadium Event Analysis Dependencies
+
+dplyr (>= 1.0.5)
+ggplot2 (>= 3.4.2)
+lubridate (>= 1.7.10)
+leaflet (>= 2.1.2)
+leaflet.extras (>= 1.0.0)
+shiny (>= 1.7.4)
+shinyWidgets (>= 0.7.6)
+shinyBS (>= 0.61.1)
