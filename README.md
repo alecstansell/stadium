@@ -8,8 +8,7 @@ The EDA folder contains an R notebook that explore and visualize the mobile data
 
 - `dependencies.txt`: File containing the R dependencies for running the R script.
 - `stadium_visits_eda.Rmd`: R Markdown file with the EDA analysis, including data preprocessing, visualizations, and insights.
-- `stadium_visits_eda.html`: HTML version of the EDA file including results with preprocessing, visualizations, and insights.
-- `figures/`: Folder containing figures generated using stadium_visits_eda.Rmd.
+- `figures`: Folder containing figures generated using stadium_visits_eda.Rmd.
 
 ## Performant Q Example
 
