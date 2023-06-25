@@ -1,5 +1,6 @@
 # Stadium Event Analysis Dependencies
 
+R (>=4.0.4)
 dplyr (>= 1.0.5)
 ggplot2 (>= 3.4.2)
 lubridate (>= 1.7.10)
